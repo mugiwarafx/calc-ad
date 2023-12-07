@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora de Salari a Andorra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<style>
+    h3 {
+        font-style: italic;
+    }
+</style>
+
+<body class="container py-5 vsc-initialized">
+
+
+    <div class="row">
+        <div class="col-xl-4 col-12 mb-3">
+            <div class="card card-body">
+                <h3 class="mb-4"><span style="
+                    background: #9effb8;
+                ">Calculadora</span></h3>
+                <p class="mb-4">Aquesta calculadora permet calcular el salari brut, la cotització de l'empleat a la
+                    CASS, el cost addicional per a l'empresa, el total a cotitzar a la CASS i el salari net final per a
+                    l'empleat a partir del salari net per hora i el nombre d'hores.</p>
+
+                <div class="mb-3">
+                    <label for="salariNet" class="form-label">Salari Net per Hora (Euros):</label>
+                    <input type="number" class="form-control" id="salariNet"
+                        placeholder="Introdueix el salari net per hora">
+                </div>
+
+                <div class="mb-3">
+                    <label for="hores" class="form-label">Nombre d'Hores:</label>
+                    <input type="number" class="form-control" id="hores" placeholder="Introdueix el nombre d'hores">
+                </div>
+
+                <!-- align button to the left-->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                    <button onclick="calcularSalari()" class="btn btn-primary mb-4">Calcular</button>
+                </div>
+            </div> <!-- /.card card-body -->
+        </div>
+
+        <div class="col-xl-4 col-12 mb-3">
+            <div class="card card-body">
+                <h3><span style="
+                    background: #efcbff;
+                ">Fórmules</span></h3>
+                <div class="">
+                    <p><strong>Salari Brut = Salari Net / 0.935</strong><br>
+                        - El factor 0.935 prové de la deducció del 6.5% (100% - 6.5% = 93.5%).<br>
+                        - Això representa el percentatge del salari brut que queda després de deduir les contribucions.
+                    </p>
+                    <p><strong>Cotització de l'Empleat a la CASS = Salari Brut * 0.065</strong><br>
+                        - El 0.065 representa el 6.5% del salari brut que l'empleat contribueix a la CASS.</p>
+                    <p><strong>Cost Addicional per a l'Empresa = Salari Brut * 0.155</strong><br>
+                        - El 0.155 representa el 15.5% addicional del salari brut que l'empresa paga a la CASS.</p>
+                    <p><strong>Salari Net Final = Salari Brut - Cotització de l'Empleat a la CASS</strong><br>
+                        - Això és el salari brut menys la cotització de l'empleat del 6.5% a la CASS.</p>
+                </div>
+            </div> <!-- /.card card-body -->
+        </div>
+
+        <div class="col-xl-4 col-12 mb-3">
+            <div class="card card-body">
+                <h3><span style="
+                    background: #fdffa0;
+                ">Resultats</span></h3>
+                <div class="">
+                    <p>Salari Brut per Hora: <span id="salariBrut"></span> Euros</p>
+                    <p>Cotització de l'Empleat a la CASS: <span id="cotitzacioEmpleat"></span> Euros</p>
+                    <p>Cost Addicional per a l'Empresa: <span id="costEmpresa"></span> Euros</p>
+                    <p>Total a Cotitzar a la CASS: <span id="totalCotitzar"></span> Euros</p>
+                    <p>Salari Net Final per a l'Empleat: <span id="salariNetFinal"></span> Euros</p>
+                </div>
+            </div> <!-- /.card card-body -->
+
+        </div>
+
+        <div class="col-xl-12 col-12 justify-content-center">
+        </div>
+    </div> <!-- /.row -->
+
+
+    <div class="row">
+
+        <div class="custom-wrapper p-3 mb-4 bg-white rounded">
+            <h4>Referències</h4>
+            <div class="mb-3">
+                <p><a href="https://www.cass.ad/">Caixa Andorrana Seguretat Social</a>
+                    <br><a href="https://www.treball.ad/legislacio-laboral/condicions-generals-de-treball">Treball i
+                        Ocuapació, Govern d'Andorra</a>
+                </p>
+            </div>
+        </div> <!-- /.custom-wrapper -->
+    </div>
+
+
+    <script>
+        function calcularSalari() {
+            var salariNet = document.getElementById("salariNet").value;
+            var hores = document.getElementById("hores").value || 1; // Si no s'introdueixen hores, es considera 1 hora
+
+            var salariBrut = salariNet / 0.935;
+            var cotitzacioEmpleat = salariBrut * 0.065;
+            var costEmpresa = salariBrut * 0.155;
+            var salariNetFinal = salariBrut - cotitzacioEmpleat;
+            var totalCotitzar = cotitzacioEmpleat + costEmpresa;
+
+            // Multiplicar per el nombre d'hores
+            salariBrut *= hores;
+            cotitzacioEmpleat *= hores;
+            costEmpresa *= hores;
+            salariNetFinal *= hores;
+            totalCotitzar *= hores;
+
+            document.getElementById("salariBrut").innerHTML = salariBrut.toFixed(2);
+            document.getElementById("cotitzacioEmpleat").innerHTML = cotitzacioEmpleat.toFixed(2);
+            document.getElementById("costEmpresa").innerHTML = costEmpresa.toFixed(2);
+            document.getElementById("totalCotitzar").innerHTML = totalCotitzar.toFixed(2);
+            document.getElementById("salariNetFinal").innerHTML = salariNetFinal.toFixed(2);
+        }
+    </script>
+
+</body>
+
+</html>
